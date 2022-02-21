@@ -22,15 +22,15 @@ export const PUBLISHER_DATA = [
 ];
 
 export const PUBLISHER_FIELDS = [
-  { name: 'name', type: 'text' },
+  { name: 'name', type: 'char(50)' },
   { name: 'siret', type: 'bigint' },
   { name: 'phone', type: 'bigint' },
 ];
 
 export const GAME_FIELDS = [
-  { name: 'title', type: 'text' },
+  { name: 'title', type: 'char(50)' },
   { name: 'price', type: 'int' },
-  { name: 'pulisher', type: 'int', link: 'publisher', key: 'id' },
-  { name: 'tags', type: 'text' },
+  { name: 'publisher', type: 'int', link: 'publisher', key: 'id' },
+  { name: 'tags', type: 'char(50)' },
   { name: 'releaseDate', type: 'bigint' },
 ];

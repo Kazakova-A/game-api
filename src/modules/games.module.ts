@@ -5,7 +5,6 @@ import { GamesService } from 'src/services/games.service';
 import { PaginationMiddleware } from 'src/middlewares/pagintation';
 
 @Module({
-  imports: [],
   controllers: [GamesController],
   providers: [GamesService],
 })

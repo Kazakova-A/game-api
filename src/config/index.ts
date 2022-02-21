@@ -32,4 +32,5 @@ export const SERVER_MESSAGES = {
   internalServerError: 'INTERNAL_SERVER_ERROR',
   missingData: 'MISSING_DATA',
   alreadyExists: 'ALREADY_EXISTS',
+  publisherDoesNotExists: 'PUBLISHER_DOES_NOT_EXISTS',
 };

@@ -19,6 +19,7 @@ export class GamesService {
 
     this.client.connect();
   }
+
   async getAllGames(
     limit,
     offset,
@@ -37,6 +38,58 @@ export class GamesService {
       const total = rows[0].count;
 
       return { list, pagination: formatPagination(limit, page, total) };
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async addGame({
+    title,
+    price,
+    publisher,
+    tags,
+    releaseDate,
+  }: GameRecord): Promise<GameRecord> {
+    try {
+      const query = `
+        INSERT INTO "game" (title, price, publisher, tags, releaseDate)
+        VALUES ('${title}', ${price}, ${publisher}, '${tags}', ${releaseDate})
+        RETURNING *
+    `;
+
+      const { rows } = await this.client.query(query);
+
+      return rows[0];
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async getGameByTitle(title: string): Promise<GameRecord | void> {
+    try {
+      const query = `
+        SELECT * FROM "game"
+        WHERE game.title = '${title}'
+      `;
+
+      const { rows } = await this.client.query(query);
+
+      return rows[0];
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async getPublisherById(id: number): Promise<GameRecord | void> {
+    try {
+      const query = `
+        SELECT * FROM "publisher"
+        WHERE publisher.id = ${id}
+      `;
+
+      const { rows } = await this.client.query(query);
+
+      return rows[0];
     } catch (error) {
       throw new Error(error);
     }
