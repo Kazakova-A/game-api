@@ -13,7 +13,7 @@ export class DatabaseService {
       host: DATABASE.host,
       database: DATABASE.database,
       password: DATABASE.password,
-      port: DATABASE.port,
+      port: Number(DATABASE.port),
     });
 
     this.client.connect();
