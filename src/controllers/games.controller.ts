@@ -150,4 +150,14 @@ export class GamesController {
       return response(req, res, rs[500], sm.internalServerError);
     }
   }
+
+  @Post('/filter')
+  async handleOldGames(@Req() req, @Res() res) {
+    try {
+      const result = await this.gamesService.handleOldGames();
+      return response(req, res, rs[200], sm.ok, result);
+    } catch (error) {
+      return response(req, res, rs[500], sm.internalServerError);
+    }
+  }
 }

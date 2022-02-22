@@ -1,13 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { Client } from 'pg';
+import * as moment from 'moment';
 
-import { DATABASE } from '../config';
 import {
   GameRecord,
   Pagination,
   PublisherRecord,
   GamePublisherInfo,
 } from 'src/utils/types';
+
+import { DATABASE } from '../config';
 import formatPagination from '../utils/format-pagination';
 
 @Injectable()
@@ -169,6 +171,52 @@ export class GamesService {
 
       const { rows } = await this.client.query(query);
       return rows[0];
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async handleOldGames(): Promise<{
+    deleted: GameRecord[] | [];
+    discounted: GameRecord[] | [];
+  }> {
+    try {
+      const currentDate = new Date().getTime();
+      const twelveMonthsRestricted = moment(currentDate)
+        .subtract(12, 'month')
+        .format('x');
+
+      const eighteenMonthRestricted = moment(currentDate)
+        .subtract(18, 'month')
+        .format('x');
+
+      const deleteOldGamesQuery = `DELETE FROM "game" WHERE
+        game.releaseDate < ${eighteenMonthRestricted}
+        RETURNING *        ;
+      `;
+
+      const getGamesForDiscountQuery = `UPDATE "game" 
+        SET price = price * 0.8, discount = true
+        WHERE
+          game.discount = false
+        AND
+          game.releaseDate < ${twelveMonthsRestricted}
+          AND game.releaseDate > ${eighteenMonthRestricted}
+          RETURNING *;
+    `;
+
+      const { rows: deletedGames } = await this.client.query(
+        deleteOldGamesQuery,
+      );
+
+      const { rows: discountedGames } = await this.client.query(
+        getGamesForDiscountQuery,
+      );
+
+      return {
+        deleted: deletedGames,
+        discounted: discountedGames,
+      };
     } catch (error) {
       throw new Error(error);
     }
