@@ -21,6 +21,7 @@ export interface GameRecord {
   publisher: number;
   tags: string;
   releaseDate: number;
+  discount?: boolean;
 }
 
 export interface GamePublisherInfo extends PublisherRecord {

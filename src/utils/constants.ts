@@ -33,4 +33,5 @@ export const GAME_FIELDS = [
   { name: 'publisher', type: 'int', link: 'publisher', key: 'id' },
   { name: 'tags', type: 'char(50)' },
   { name: 'releaseDate', type: 'bigint' },
+  { name: 'discount', type: 'boolean' },
 ];

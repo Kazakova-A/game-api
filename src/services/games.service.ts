@@ -57,8 +57,8 @@ export class GamesService {
   }: GameRecord): Promise<GameRecord> {
     try {
       const query = `
-        INSERT INTO "game" (title, price, publisher, tags, releaseDate)
-        VALUES ('${title}', ${price}, ${publisher}, '${tags}', ${releaseDate})
+        INSERT INTO "game" (title, price, publisher, tags, releaseDate, discount)
+        VALUES ('${title}', ${price}, ${publisher}, '${tags}', ${releaseDate}, ${false})
         RETURNING *
     `;
 
