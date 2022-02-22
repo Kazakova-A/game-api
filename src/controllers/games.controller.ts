@@ -29,6 +29,43 @@ export class GamesController {
     }
   }
 
+  @Get(':id')
+  async getGame(@Req() req, @Res() res, @Param('id') id) {
+    try {
+      if (!id) {
+        return response(req, res, rs[400], sm.missingData);
+      }
+
+      const gameRecord = await this.gamesService.getGameById(id);
+
+      if (!gameRecord) {
+        return response(req, res, rs[204], sm.notFound);
+      }
+      return response(req, res, rs[200], sm.ok, gameRecord);
+    } catch (error) {
+      return response(req, res, rs[500], sm.internalServerError);
+    }
+  }
+
+  @Get('/detailed/:id')
+  async getDetailedGameInfo(@Req() req, @Res() res, @Param('id') id) {
+    try {
+      if (!id) {
+        return response(req, res, rs[400], sm.missingData);
+      }
+
+      const result = await this.gamesService.getGamePublisherInfo(id);
+
+      if (!result) {
+        return response(req, res, rs[204], sm.notFound);
+      }
+
+      return response(req, res, rs[200], sm.ok, result);
+    } catch (error) {
+      return response(req, res, rs[500], sm.internalServerError);
+    }
+  }
+
   @Post()
   async addGame(@Req() req, @Res() res) {
     try {

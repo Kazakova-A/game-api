@@ -23,6 +23,13 @@ export interface GameRecord {
   releaseDate: number;
 }
 
+export interface GamePublisherInfo extends PublisherRecord {
+  id?: number;
+  title: string;
+  releaseDate: number;
+  price: number;
+}
+
 export interface ResponseObject {
   data?: any;
   datetime: number;

@@ -2,7 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { Client } from 'pg';
 
 import { DATABASE } from '../config';
-import { GameRecord, Pagination, PublisherRecord } from 'src/utils/types';
+import {
+  GameRecord,
+  Pagination,
+  PublisherRecord,
+  GamePublisherInfo,
+} from 'src/utils/types';
 import formatPagination from '../utils/format-pagination';
 
 @Injectable()
@@ -143,6 +148,26 @@ export class GamesService {
 
       const { rows } = await this.client.query(query);
 
+      return rows[0];
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async getGamePublisherInfo(id: number): Promise<GamePublisherInfo | void> {
+    try {
+      const query = `
+        SELECT
+          g.title,
+          g.releasedate,
+          g.price,
+          g.id AS "gameId",
+          b.name AS "publisheName"
+        FROM "game" g, "publisher" b
+        WHERE g.id = ${id}
+        AND g.publisher = b.id`;
+
+      const { rows } = await this.client.query(query);
       return rows[0];
     } catch (error) {
       throw new Error(error);
