@@ -20,14 +20,14 @@ export interface GameRecord {
   price: number;
   publisher: number;
   tags: string;
-  releaseDate: number;
+  release_date: number;
   discount?: boolean;
 }
 
 export interface GamePublisherInfo extends PublisherRecord {
   id?: number;
   title: string;
-  releaseDate: number;
+  release_date: number;
   price: number;
 }
 

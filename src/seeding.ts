@@ -6,6 +6,7 @@ import {
   PUBLISHER_FIELDS,
   GAME_FIELDS,
   PUBLISHER_DATA,
+  GAME_DATA,
 } from './utils/constants';
 
 async function bootstrap() {
@@ -22,11 +23,16 @@ async function bootstrap() {
       fields: GAME_FIELDS,
     },
   ];
+
   await seeder.createTables(TABLES);
 
   await seeder.seed({
     tableName: 'publisher',
     lines: PUBLISHER_DATA,
+  });
+  await seeder.seed({
+    tableName: 'game',
+    lines: GAME_DATA,
   });
 }
 

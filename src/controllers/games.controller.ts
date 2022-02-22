@@ -69,9 +69,8 @@ export class GamesController {
   @Post()
   async addGame(@Req() req, @Res() res) {
     try {
-      const { title, price, publisher, tags, releaseDate } = req.body;
-
-      if (!(title && price && publisher && releaseDate)) {
+      const { title, price, publisher, tags, release_date } = req.body;
+      if (!(title && price && publisher && release_date)) {
         return response(req, res, rs[400], sm.missingData);
       }
 
@@ -96,10 +95,10 @@ export class GamesController {
         price,
         publisher,
         tags,
-        releaseDate,
+        release_date,
       });
 
-      return response(req, res, rs[200], sm.ok, result);
+      return response(req, res, rs[201], sm.ok, result);
     } catch (error) {
       return response(req, res, rs[500], sm.internalServerError);
     }
@@ -122,7 +121,7 @@ export class GamesController {
   @Put(':id')
   async updateGame(@Req() req, @Res() res, @Param('id') id) {
     try {
-      const { title, price, publisher, tags, releaseDate } = req.body;
+      const { title, price, publisher, tags, release_date } = req.body;
 
       if (!id) {
         return response(req, res, rs[400], sm.missingData);
@@ -141,7 +140,7 @@ export class GamesController {
         price: price || gameRecord.price,
         publisher: publisher || gameRecord.publisher,
         tags: tags || gameRecord.tags,
-        releaseDate: releaseDate || gameRecord.releaseDate,
+        release_date: release_date || gameRecord.release_date,
       };
 
       const result = await this.gamesService.updateGame(updatedRecord);

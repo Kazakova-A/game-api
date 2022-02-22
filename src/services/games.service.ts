@@ -55,12 +55,12 @@ export class GamesService {
     price,
     publisher,
     tags,
-    releaseDate,
+    release_date,
   }: GameRecord): Promise<GameRecord> {
     try {
       const query = `
-        INSERT INTO "game" (title, price, publisher, tags, releaseDate, discount)
-        VALUES ('${title}', ${price}, ${publisher}, '${tags}', ${releaseDate}, ${false})
+        INSERT INTO "game" (title, price, publisher, tags, release_date, discount)
+        VALUES ('${title}', ${price}, ${publisher}, '${tags}', ${release_date}, ${false})
         RETURNING *
     `;
 
@@ -138,12 +138,12 @@ export class GamesService {
     price,
     publisher,
     tags,
-    releaseDate,
+    release_date,
   }: GameRecord): Promise<GameRecord> {
     try {
       const query = `
         UPDATE "game"
-        SET title = '${title}', price = ${price}, publisher = ${publisher}, tags = '${tags}', releaseDate = ${releaseDate}
+        SET title = '${title}', price = ${price}, publisher = ${publisher}, tags = '${tags}', release_date = ${release_date}
         WHERE game.id = ${id}
         RETURNING *
       `;
@@ -161,7 +161,7 @@ export class GamesService {
       const query = `
         SELECT
           g.title,
-          g.releasedate,
+          g.release_date,
           g.price,
           g.id AS "gameId",
           b.name AS "publisheName"
@@ -191,7 +191,7 @@ export class GamesService {
         .format('x');
 
       const deleteOldGamesQuery = `DELETE FROM "game" WHERE
-        game.releaseDate < ${eighteenMonthRestricted}
+        game.release_date < ${eighteenMonthRestricted}
         RETURNING *        ;
       `;
 
@@ -200,8 +200,8 @@ export class GamesService {
         WHERE
           game.discount = false
         AND
-          game.releaseDate < ${twelveMonthsRestricted}
-          AND game.releaseDate > ${eighteenMonthRestricted}
+          game.release_date < ${twelveMonthsRestricted}
+          AND game.release_date > ${eighteenMonthRestricted}
           RETURNING *;
     `;
 

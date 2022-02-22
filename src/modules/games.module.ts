@@ -1,8 +1,8 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 
 import { GamesController } from '../controllers/games.controller';
-import { GamesService } from 'src/services/games.service';
-import { PaginationMiddleware } from 'src/middlewares/pagintation';
+import { GamesService } from '../services/games.service';
+import { PaginationMiddleware } from '../middlewares/pagintation';
 
 @Module({
   controllers: [GamesController],

@@ -21,17 +21,44 @@ export const PUBLISHER_DATA = [
   },
 ];
 
+export const GAME_DATA = [
+  {
+    title: 'GTA 5',
+    price: 40,
+    tags: '',
+    publisher: 3,
+    release_date: 1448162798000,
+    discount: false,
+  },
+  {
+    title: 'The Elder Scrols',
+    price: 20,
+    tags: '',
+    publisher: 4,
+    release_date: 1353554798000,
+    discount: false,
+  },
+  {
+    title: 'Assassins Creed Valhalla',
+    price: 50,
+    tags: '',
+    publisher: 2,
+    release_date: 1632281198000,
+    discount: false,
+  },
+];
+
 export const PUBLISHER_FIELDS = [
-  { name: 'name', type: 'char(50)' },
+  { name: 'name', type: 'text' },
   { name: 'siret', type: 'bigint' },
   { name: 'phone', type: 'bigint' },
 ];
 
 export const GAME_FIELDS = [
-  { name: 'title', type: 'char(50)' },
+  { name: 'title', type: 'text' },
   { name: 'price', type: 'int' },
   { name: 'publisher', type: 'int', link: 'publisher', key: 'id' },
-  { name: 'tags', type: 'char(50)' },
-  { name: 'releaseDate', type: 'bigint' },
+  { name: 'tags', type: 'text' },
+  { name: 'release_date', type: 'bigint' },
   { name: 'discount', type: 'boolean' },
 ];

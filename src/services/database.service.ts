@@ -78,7 +78,7 @@ export class DatabaseService {
     data,
   }: {
     tableName: string;
-    data: { [key: string]: string | number };
+    data: { [key: string]: string | number | boolean};
   }) {
     const exist = await this.checkTable(tableName);
     if (!exist) {
@@ -108,7 +108,7 @@ export class DatabaseService {
     lines,
   }: {
     tableName: string;
-    lines: { [key: string]: string | number }[];
+    lines: { [key: string]: string | number | boolean }[];
   }) {
     const exist = await this.checkTable(tableName);
 
