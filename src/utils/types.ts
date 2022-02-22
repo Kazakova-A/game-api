@@ -15,6 +15,7 @@ export interface PublisherRecord {
 }
 
 export interface GameRecord {
+  id?: number;
   title: string;
   price: number;
   publisher: number;

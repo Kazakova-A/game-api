@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Client } from 'pg';
 
 import { DATABASE } from '../config';
-import { GameRecord, Pagination } from 'src/utils/types';
+import { GameRecord, Pagination, PublisherRecord } from 'src/utils/types';
 import formatPagination from '../utils/format-pagination';
 
 @Injectable()
@@ -80,11 +80,65 @@ export class GamesService {
     }
   }
 
-  async getPublisherById(id: number): Promise<GameRecord | void> {
+  async deleteGame(id: string): Promise<void> {
+    try {
+      const query = `
+        DELETE FROM "game"
+        WHERE game.id = '${id}'
+      `;
+
+      const { rows } = await this.client.query(query);
+
+      return rows[0];
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async getGameById(id: number): Promise<GameRecord | void> {
+    try {
+      const query = `
+        SELECT * FROM "game"
+        WHERE game.id = ${id}
+      `;
+
+      const { rows } = await this.client.query(query);
+
+      return rows[0];
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async getPublisherById(id: number): Promise<PublisherRecord | void> {
     try {
       const query = `
         SELECT * FROM "publisher"
         WHERE publisher.id = ${id}
+      `;
+
+      const { rows } = await this.client.query(query);
+
+      return rows[0];
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async updateGame({
+    id,
+    title,
+    price,
+    publisher,
+    tags,
+    releaseDate,
+  }: GameRecord): Promise<GameRecord> {
+    try {
+      const query = `
+        UPDATE "game"
+        SET title = '${title}', price = ${price}, publisher = ${publisher}, tags = '${tags}', releaseDate = ${releaseDate}
+        WHERE game.id = ${id}
+        RETURNING *
       `;
 
       const { rows } = await this.client.query(query);

@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Req, Res } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Delete,
+  Put,
+  Req,
+  Res,
+  Param,
+} from '@nestjs/common';
 
 import { GamesService } from '../services/games.service';
 import response from '../utils/response';
@@ -53,6 +62,52 @@ export class GamesController {
         releaseDate,
       });
 
+      return response(req, res, rs[200], sm.ok, result);
+    } catch (error) {
+      return response(req, res, rs[500], sm.internalServerError);
+    }
+  }
+
+  @Delete(':id')
+  async deleteGame(@Req() req, @Res() res, @Param('id') id) {
+    try {
+      if (!id) {
+        return response(req, res, rs[400], sm.missingData);
+      }
+
+      await this.gamesService.deleteGame(id);
+      return response(req, res, rs[200], sm.ok);
+    } catch (error) {
+      return response(req, res, rs[500], sm.internalServerError);
+    }
+  }
+
+  @Put(':id')
+  async updateGame(@Req() req, @Res() res, @Param('id') id) {
+    try {
+      const { title, price, publisher, tags, releaseDate } = req.body;
+
+      if (!id) {
+        return response(req, res, rs[400], sm.missingData);
+      }
+
+      // check if this game exists
+      const gameRecord = await this.gamesService.getGameById(id);
+
+      if (!gameRecord) {
+        return response(req, res, rs[204], sm.notFound);
+      }
+
+      const updatedRecord = {
+        id,
+        title: title || gameRecord.title,
+        price: price || gameRecord.price,
+        publisher: publisher || gameRecord.publisher,
+        tags: tags || gameRecord.tags,
+        releaseDate: releaseDate || gameRecord.releaseDate,
+      };
+
+      const result = await this.gamesService.updateGame(updatedRecord);
       return response(req, res, rs[200], sm.ok, result);
     } catch (error) {
       return response(req, res, rs[500], sm.internalServerError);
