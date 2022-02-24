@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
 import { INestApplication } from '@nestjs/common';
 
-import { GAME_DATA } from '../src/utils/constants';
+import { GAME_DATA, DISCOUNT_VALUE } from '../src/utils/constants';
 import { GameRecord } from '../src/utils/types';
 import { GamesService } from '../src/services/games.service';
 import { GamesModule } from '../src/modules/games.module';
@@ -10,7 +10,6 @@ import { GamesModule } from '../src/modules/games.module';
 describe('RoomsController', () => {
   let app: INestApplication;
   let newGameRecord: GameRecord;
-  let databaseService: GamesService;
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -18,14 +17,11 @@ describe('RoomsController', () => {
       providers: [GamesService],
     }).compile();
 
-    databaseService = await module.resolve(GamesService);
-
     app = module.createNestApplication();
     await app.init();
   });
 
   afterAll(async () => {
-    // await databaseService.deleteRecord('booking', newGameRecord.id);
     await app.close();
   });
 
@@ -120,5 +116,23 @@ describe('RoomsController', () => {
 
     expect(status).toBe(200);
     expect(message).toEqual('OK');
+  });
+
+  it(`/games/filter (POST). 
+      Should delete game with release date older than 18 months
+      and set the 20% discount to the games with date between 12 and 18 months
+    `, async () => {
+    const {
+      body: { status, message, data },
+    } = await request(app.getHttpServer()).post('/games/filter');
+
+    expect(status).toBe(200);
+    expect(message).toEqual('OK');
+    expect(data.deleted).toHaveLength(2);
+    expect(data.discounted).toHaveLength(1);
+    expect(data.discounted[0].price).toEqual(
+      GAME_DATA[2].price * DISCOUNT_VALUE,
+    );
+    expect(data.discounted[0].discount).toEqual(true);
   });
 });

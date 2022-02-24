@@ -1,3 +1,7 @@
+import * as moment from 'moment';
+
+const currentDate = new Date().getTime();
+
 export const PUBLISHER_DATA = [
   {
     name: 'EA',
@@ -27,7 +31,7 @@ export const GAME_DATA = [
     price: 40,
     tags: '',
     publisher: 3,
-    release_date: 1448162798000,
+    release_date: moment(currentDate).subtract(24, 'month').format('x'),
     discount: false,
   },
   {
@@ -35,7 +39,7 @@ export const GAME_DATA = [
     price: 20,
     tags: '',
     publisher: 4,
-    release_date: 1353554798000,
+    release_date: moment(currentDate).subtract(19, 'month').format('x'),
     discount: false,
   },
   {
@@ -43,7 +47,7 @@ export const GAME_DATA = [
     price: 50,
     tags: '',
     publisher: 2,
-    release_date: 1632281198000,
+    release_date: moment(currentDate).subtract(14, 'month').format('x'),
     discount: false,
   },
 ];
@@ -62,3 +66,5 @@ export const GAME_FIELDS = [
   { name: 'release_date', type: 'bigint' },
   { name: 'discount', type: 'boolean' },
 ];
+
+export const DISCOUNT_VALUE = 0.8;

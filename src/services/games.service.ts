@@ -7,8 +7,8 @@ import {
   Pagination,
   PublisherRecord,
   GamePublisherInfo,
-} from 'src/utils/types';
-
+} from '../utils/types';
+import { DISCOUNT_VALUE } from '../utils/constants';
 import { DATABASE } from '../config';
 import formatPagination from '../utils/format-pagination';
 
@@ -196,7 +196,7 @@ export class GamesService {
       `;
 
       const getGamesForDiscountQuery = `UPDATE "game" 
-        SET price = price * 0.8, discount = true
+        SET price = price * ${DISCOUNT_VALUE}, discount = true
         WHERE
           game.discount = false
         AND
