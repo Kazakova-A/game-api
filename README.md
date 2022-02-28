@@ -44,7 +44,7 @@ Clone the project and install the dependencies:
 ```shell script
 git clone https://github.com/Kazakova-A/game-api.git
 cd ./game-api
-nvm use 14
+nvm use 16
 npm i
 ```
 
@@ -54,10 +54,10 @@ The `.env` file is required, see the [.env.example](.env.example) for details
 
 
 ### Launch (development)
-Run the server in a terminal:
+Run the server in a terminal via docker:
 
 ```shell script
-yarn start:dev
+docker-compose up
 ```
 
 ### Testing
