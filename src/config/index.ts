@@ -9,11 +9,11 @@ export const PORT = env.PORT;
 
 // Database connection options
 export const DATABASE = {
-  database: env.DATABASE_NAME,
-  host: env.DATABASE_HOST,
-  password: env.DATABASE_PASSWORD,
-  port: env.DATBASE_PORT,
-  username: env.DATABASE_USERNAME,
+  database: env.POSTGRES_DB,
+  host: env.POSTGRES_HOST,
+  password: env.POSTGRESS_PASSWORD,
+  port: env.POSTGRESS_PORT,
+  username: env.POSTGRES_USER,
 };
 
 // Server response statuses
